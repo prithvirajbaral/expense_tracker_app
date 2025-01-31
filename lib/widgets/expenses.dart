@@ -13,7 +13,20 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  final List<Expense> _registeredExpenses = [];
+  final List<Expense> _registeredExpenses = [
+    Expense(
+      category: Category.work,
+      title: 'flutter course',
+      amount: 600,
+      date: DateTime.now(),
+    ),
+    Expense(
+      category: Category.food,
+      title: 'pizza',
+      amount: 60,
+      date: DateTime.now(),
+    ),
+  ];
 
   void _openAddExpenseOverLay() {
     showModalBottomSheet(
