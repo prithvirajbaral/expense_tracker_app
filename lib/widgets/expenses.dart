@@ -13,18 +13,7 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  final List<Expense> _registeredExpenses = [
-    Expense(
-        category: Category.work,
-        title: "Flutter Course",
-        amount: 100,
-        date: DateTime.now()),
-    Expense(
-        category: Category.food,
-        title: "pizza",
-        amount: 10,
-        date: DateTime.now()),
-  ];
+  final List<Expense> _registeredExpenses = [];
 
   void _openAddExpenseOverLay() {
     showModalBottomSheet(
@@ -39,8 +28,22 @@ class _ExpensesState extends State<Expenses> {
     });
   }
 
+  void _removeExpenses(Expense expense) {
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget mainContent =
+        const Center(child: Text("No expenses found, Start adding some..."));
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+        expenses: _registeredExpenses,
+        onRemoveExpenses: _removeExpenses,
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Expenses Tracker"),
@@ -54,7 +57,9 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           const Text("The Chart..."),
-          Expanded(child: ExpensesList(expenses: _registeredExpenses)),
+          Expanded(
+            child: mainContent,
+          ),
         ],
       ),
     );
